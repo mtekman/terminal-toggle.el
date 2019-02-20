@@ -11,48 +11,48 @@
 ;;; Commentary:
 
 ;; A simple terminal that pops-up (bottom/top/left/right) and then removes
-;; itself when it loses focus without killing the buffer. Essentially it is
+;; itself when it loses focus without killing the buffer.  Essentially it is
 ;; a simple hide/show for a terminal.
-
-(require 'popwin)
 
 ;;; Code:
 
-(defvar terminal-toggle--term-name
-  "Name of buffer to hide/show"
-  "*ansi-term*")
+(require 'popwin)
+
+(defcustom terminal-toggle--term-name "*ansi-term*"
+  "Name of buffer to hide/show."
+  :type 'string)
 
 (defcustom terminal-toggle--term-command "ansi-term"
-  "Terminal command to launch"
+  "Terminal command to launch."
   :type 'string)
 
 (defcustom terminal-toggle--term-shell "/usr/bin/zsh"
-  "Terminal shell to launch"
+  "Terminal shell to launch."
   :type 'string)
 
 (defun terminal-toggle-is-open ()
-  "Terminal exists"
-  (get-buffer term-name))
+  "Terminal exists."
+  (get-buffer terminal-toggle--term-name))
 
 (defun terminal-toggle-is-showing ()
-  "Terminal state (whether is visible)"
-  (get-buffer-window term-name))
+  "Terminal state (whether is visible)."
+  (get-buffer-window terminal-toggle--term-name))
 
 (defun terminal-toggle-launch ()
-  "Launch ansi terminal"
-  (terminal-toggle--term-command terminal-toggle--term-shell))
+  "Launch ansi terminal."
+  (funcall (intern terminal-toggle--term-command) terminal-toggle--term-shell))
 
 (defun terminal-toggle-set-visible ()
-  "Show an already opened terminal"
-  (popwin:popup-buffer term-name))
+  "Show an already opened terminal."
+  (popwin:popup-buffer terminal-toggle--term-name))
 
 (defun terminal-toggle-set-hidden ()
-  "Hide the terminal"
-  (delete-window (get-buffer-window term-name)))
+  "Hide the terminal."
+  (delete-window (get-buffer-window terminal-toggle--term-name)))
 
 ;;;###autoload
 (defun terminal-toggle ()
-  "Show/launch or hide terminal"
+  "Show/launch or hide terminal."
   (interactive)
   (if (terminal-toggle-is-open)
       (if (terminal-toggle-is-showing)
@@ -64,3 +64,4 @@
 (provide 'terminal-toggle)
 
 ;;; terminal-toggle.el ends here
+
