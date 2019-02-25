@@ -35,7 +35,7 @@
                (string= (substring terminal-toggle--term-title -1) "*"))
       terminal-toggle--term-title
     (concat "*" terminal-toggle--term-title "*"))
-  "Internal buffer name with asterisks")
+  "Internal buffer name with asterisks.")
 
 (defun terminal-toggle-is-open ()
   "Terminal exists."
