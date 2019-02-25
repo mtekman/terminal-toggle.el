@@ -18,7 +18,7 @@
 
 (require 'popwin)
 
-(defcustom terminal-toggle--term-name "*ansi-term*"
+(defcustom terminal-toggle--term-title "myterm"
   "Name of buffer to hide/show."
   :type 'string)
 
@@ -30,6 +30,13 @@
   "Terminal shell to launch."
   :type 'string)
 
+(defconst terminal-toggle--term-name
+  (if (and (string= (substring terminal-toggle--term-title 0 1) "*")
+               (string= (substring terminal-toggle--term-title -1) "*"))
+      terminal-toggle--term-title
+    (concat "*" terminal-toggle--term-title "*"))
+  "Internal buffer name with asterisks")
+
 (defun terminal-toggle-is-open ()
   "Terminal exists."
   (get-buffer terminal-toggle--term-name))
@@ -40,7 +47,9 @@
 
 (defun terminal-toggle-launch ()
   "Launch ansi terminal."
-  (funcall (intern terminal-toggle--term-command) terminal-toggle--term-shell))
+  (funcall (intern terminal-toggle--term-command) terminal-toggle--term-shell
+           (substring terminal-toggle--term-name 1 -1))
+  (switch-to-buffer (other-buffer (current-buffer) 1)))
 
 (defun terminal-toggle-set-visible ()
   "Show an already opened terminal."
