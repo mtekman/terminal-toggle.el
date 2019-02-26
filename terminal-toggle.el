@@ -18,17 +18,25 @@
 
 (require 'popwin)
 
+(defgroup terminal-toggle nil
+  "Group for setting terminal options"
+  :prefix "terminal-toggle-"
+  :group 'emacs)
+
 (defcustom terminal-toggle--term-title "myterm"
   "Name of buffer to hide/show."
-  :type 'string)
+  :type 'string
+  :group 'terminal-toggle)
 
 (defcustom terminal-toggle--term-command "ansi-term"
   "Terminal command to launch."
-  :type 'string)
+  :type 'string
+  :group 'terminal-toggle)
 
 (defcustom terminal-toggle--term-shell "/usr/bin/zsh"
   "Terminal shell to launch."
-  :type 'string)
+  :type 'string
+  :group 'terminal-toggle)
 
 (defconst terminal-toggle--term-name
   (if (and (string= (substring terminal-toggle--term-title 0 1) "*")
